@@ -14,38 +14,25 @@ const ScrollProgress = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsVisible(window.scrollY > 100);
+      const show = window.scrollY > 100;
+      if (show !== isVisible) setIsVisible(show);
     };
 
     window.addEventListener('scroll', handleScroll);
-    handleScroll(); // Check initial position
-
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [isVisible]);
 
   if (!isVisible) return null;
 
   return (
-    <>
-      <motion.div
-        className="fixed top-0 left-0 right-0 h-1 origin-left z-50"
-        style={{
-          scaleX,
-          background: isDarkMode 
-            ? 'linear-gradient(to right, #4f46e5, #818cf8)' 
-            : 'linear-gradient(to right, #3b82f6, #60a5fa)'
-        }}
-      />
-      <div 
-        className={`fixed bottom-4 right-4 px-3 py-1 rounded-full text-sm ${
-          isDarkMode 
-            ? 'bg-gray-800 text-gray-300 border border-gray-700' 
-            : 'bg-white text-gray-600 shadow-md'
-        }`}
-      >
-        {Math.round(scrollYProgress.get() * 100)}%
-      </div>
-    </>
+    <motion.div
+      className="fixed top-0 left-0 right-0 z-50 h-[2px] origin-[0%] bg-gradient-to-r from-primary-600 to-primary-400 dark:from-primary-400 dark:to-primary-200"
+      style={{ scaleX }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.3 }}
+    />
   );
 };
 

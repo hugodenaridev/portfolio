@@ -1,6 +1,8 @@
 import { motion } from 'framer-motion';
 import useContactForm from '../hooks/useContactForm';
 import Button from '../components/Button';
+import Card from '../components/Card';
+import Background from '../components/Background';
 import Notification from '../components/Notification';
 import Meta from '../components/Meta';
 
@@ -15,148 +17,219 @@ const Contact = () => {
     closeNotification
   } = useContactForm();
 
+  const inputClasses = `w-full px-4 py-3 rounded-lg bg-surface-50/50 dark:bg-surface-800/50 
+    border border-surface-200/50 dark:border-surface-700/50
+    focus:ring-2 focus:ring-primary-500/30 focus:border-primary-500
+    dark:focus:ring-primary-400/30 dark:focus:border-primary-400
+    transition-all duration-200 backdrop-blur-sm
+    placeholder:text-surface-400 dark:placeholder:text-surface-500`;
+
+  const errorClasses = 'border-red-500 focus:ring-red-500/30 focus:border-red-500';
+
+  const socialLinks = [
+    {
+      icon: '📧',
+      label: 'Email',
+      href: 'mailto:your.email@example.com',
+      value: 'your.email@example.com'
+    },
+    {
+      icon: '🔗',
+      label: 'LinkedIn',
+      href: 'https://linkedin.com/in/yourprofile',
+      value: 'LinkedIn Profile'
+    },
+    {
+      icon: '💻',
+      label: 'GitHub',
+      href: 'https://github.com/yourusername',
+      value: 'GitHub Profile'
+    }
+  ];
+
   return (
     <>
       <Meta 
         title="Contact | Developer Portfolio"
         description="Get in touch with me to discuss your next project or any opportunities"
       />
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-        <Notification
-          message={notification.message}
-          type={notification.type}
-          isVisible={notification.isVisible}
-          onClose={closeNotification}
-        />
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5 }}
-          className="max-w-2xl mx-auto"
-        >
-          <h2 className="text-3xl font-bold mb-8 text-center">Get in Touch</h2>
-          <div className="bg-white rounded-lg shadow-lg p-8">
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div>
-                <label 
-                  htmlFor="name"
-                  className="block text-sm font-medium text-gray-700 mb-1"
-                >
-                  Name
-                </label>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  disabled={isSubmitting}
-                  className={`w-full px-4 py-2 border rounded-md focus:ring-blue-500 focus:border-blue-500 ${
-                    errors.name ? 'border-red-500' : 'border-gray-300'
-                  }`}
-                  aria-invalid={errors.name ? 'true' : 'false'}
-                  aria-describedby={errors.name ? 'name-error' : undefined}
-                />
-                {errors.name && (
-                  <p id="name-error" className="mt-1 text-sm text-red-600">{errors.name}</p>
-                )}
-              </div>
-              
-              <div>
-                <label 
-                  htmlFor="email"
-                  className="block text-sm font-medium text-gray-700 mb-1"
-                >
-                  Email
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  disabled={isSubmitting}
-                  className={`w-full px-4 py-2 border rounded-md focus:ring-blue-500 focus:border-blue-500 ${
-                    errors.email ? 'border-red-500' : 'border-gray-300'
-                  }`}
-                  aria-invalid={errors.email ? 'true' : 'false'}
-                  aria-describedby={errors.email ? 'email-error' : undefined}
-                />
-                {errors.email && (
-                  <p id="email-error" className="mt-1 text-sm text-red-600">{errors.email}</p>
-                )}
-              </div>
-              
-              <div>
-                <label 
-                  htmlFor="message"
-                  className="block text-sm font-medium text-gray-700 mb-1"
-                >
-                  Message
-                </label>
-                <textarea
-                  id="message"
-                  name="message"
-                  value={formData.message}
-                  onChange={handleChange}
-                  disabled={isSubmitting}
-                  rows={5}
-                  className={`w-full px-4 py-2 border rounded-md focus:ring-blue-500 focus:border-blue-500 ${
-                    errors.message ? 'border-red-500' : 'border-gray-300'
-                  }`}
-                  aria-invalid={errors.message ? 'true' : 'false'}
-                  aria-describedby={errors.message ? 'message-error' : undefined}
-                />
-                {errors.message && (
-                  <p id="message-error" className="mt-1 text-sm text-red-600">{errors.message}</p>
-                )}
-              </div>
+      <div className="relative min-h-screen">
+        <Background variant="hero" />
+        <div className="container-section">
+          <Notification
+            message={notification.message}
+            type={notification.type}
+            isVisible={notification.isVisible}
+            onClose={closeNotification}
+          />
+          
+          <div className="max-w-4xl mx-auto">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="text-center mb-12"
+            >
+              <h1 className="text-3xl md:text-4xl font-bold mb-4">
+                Get in Touch
+              </h1>
+              <p className="text-lg text-surface-600 dark:text-surface-300">
+                Have a project in mind? Let's talk about it.
+              </p>
+            </motion.div>
 
-              <Button
-                type="submit"
-                disabled={isSubmitting}
-                variant={isSubmitting ? 'secondary' : 'primary'}
-                className="w-full disabled:opacity-50 disabled:cursor-not-allowed"
+            <div className="grid md:grid-cols-5 gap-8">
+              <motion.div 
+                className="md:col-span-3"
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: 0.2 }}
               >
-                {isSubmitting ? 'Sending...' : 'Send Message'}
-              </Button>
-            </form>
+                <Card variant="glass" className="p-6">
+                  <form onSubmit={handleSubmit} className="space-y-6">
+                    <div>
+                      <label 
+                        htmlFor="name"
+                        className="block text-sm font-medium mb-2"
+                      >
+                        Name
+                      </label>
+                      <motion.input
+                        whileFocus={{ scale: 1.01 }}
+                        type="text"
+                        id="name"
+                        name="name"
+                        value={formData.name}
+                        onChange={handleChange}
+                        disabled={isSubmitting}
+                        className={`${inputClasses} ${errors.name ? errorClasses : ''}`}
+                        aria-invalid={errors.name ? 'true' : 'false'}
+                        aria-describedby={errors.name ? 'name-error' : undefined}
+                      />
+                      {errors.name && (
+                        <motion.p 
+                          initial={{ opacity: 0, y: -10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          id="name-error" 
+                          className="mt-1 text-sm text-red-500"
+                        >
+                          {errors.name}
+                        </motion.p>
+                      )}
+                    </div>
 
-            <div className="mt-12 pt-8 border-t">
-              <h3 className="text-xl font-semibold mb-4">Other ways to reach me:</h3>
-              <div className="space-y-4">
-                <p className="flex items-center text-gray-600">
-                  <span className="mr-3">📧</span>
-                  <a href="mailto:your.email@example.com" className="hover:text-blue-600">
-                    your.email@example.com
-                  </a>
-                </p>
-                <p className="flex items-center text-gray-600">
-                  <span className="mr-3">🔗</span>
-                  <a 
-                    href="https://linkedin.com/in/yourprofile"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="hover:text-blue-600"
-                  >
-                    LinkedIn Profile
-                  </a>
-                </p>
-                <p className="flex items-center text-gray-600">
-                  <span className="mr-3">💻</span>
-                  <a 
-                    href="https://github.com/yourusername"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="hover:text-blue-600"
-                  >
-                    GitHub Profile
-                  </a>
-                </p>
-              </div>
+                    <div>
+                      <label 
+                        htmlFor="email"
+                        className="block text-sm font-medium mb-2"
+                      >
+                        Email
+                      </label>
+                      <motion.input
+                        whileFocus={{ scale: 1.01 }}
+                        type="email"
+                        id="email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleChange}
+                        disabled={isSubmitting}
+                        className={`${inputClasses} ${errors.email ? errorClasses : ''}`}
+                        aria-invalid={errors.email ? 'true' : 'false'}
+                        aria-describedby={errors.email ? 'email-error' : undefined}
+                      />
+                      {errors.email && (
+                        <motion.p 
+                          initial={{ opacity: 0, y: -10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          id="email-error" 
+                          className="mt-1 text-sm text-red-500"
+                        >
+                          {errors.email}
+                        </motion.p>
+                      )}
+                    </div>
+
+                    <div>
+                      <label 
+                        htmlFor="message"
+                        className="block text-sm font-medium mb-2"
+                      >
+                        Message
+                      </label>
+                      <motion.textarea
+                        whileFocus={{ scale: 1.01 }}
+                        id="message"
+                        name="message"
+                        value={formData.message}
+                        onChange={handleChange}
+                        disabled={isSubmitting}
+                        rows={5}
+                        className={`${inputClasses} ${errors.message ? errorClasses : ''}`}
+                        aria-invalid={errors.message ? 'true' : 'false'}
+                        aria-describedby={errors.message ? 'message-error' : undefined}
+                      />
+                      {errors.message && (
+                        <motion.p 
+                          initial={{ opacity: 0, y: -10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          id="message-error" 
+                          className="mt-1 text-sm text-red-500"
+                        >
+                          {errors.message}
+                        </motion.p>
+                      )}
+                    </div>
+
+                    <Button
+                      type="submit"
+                      variant="primary"
+                      isLoading={isSubmitting}
+                      disabled={isSubmitting}
+                      className="w-full"
+                    >
+                      {isSubmitting ? 'Sending...' : 'Send Message'}
+                    </Button>
+                  </form>
+                </Card>
+              </motion.div>
+
+              <motion.div 
+                className="md:col-span-2"
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: 0.4 }}
+              >
+                <Card variant="glass" className="p-6">
+                  <h3 className="text-xl font-semibold mb-6">
+                    Other ways to reach me
+                  </h3>
+                  <div className="space-y-6">
+                    {socialLinks.map((link) => (
+                      <motion.a
+                        key={link.label}
+                        href={link.href}
+                        target={link.label !== 'Email' ? '_blank' : undefined}
+                        rel={link.label !== 'Email' ? 'noopener noreferrer' : undefined}
+                        className="flex items-center group"
+                        whileHover={{ x: 4 }}
+                      >
+                        <span className="mr-3 text-2xl">{link.icon}</span>
+                        <div className="flex flex-col">
+                          <span className="text-sm text-surface-500 dark:text-surface-400">
+                            {link.label}
+                          </span>
+                          <span className="text-primary-600 dark:text-primary-400 group-hover:text-primary-500">
+                            {link.value}
+                          </span>
+                        </div>
+                      </motion.a>
+                    ))}
+                  </div>
+                </Card>
+              </motion.div>
             </div>
           </div>
-        </motion.div>
+        </div>
       </div>
     </>
   );

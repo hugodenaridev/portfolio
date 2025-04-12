@@ -6,26 +6,81 @@ interface MetaProps {
   title?: string;
   description?: string;
   image?: string;
+  type?: string;
 }
 
-const Meta = ({ 
-  title = 'Developer Portfolio',
-  description = 'Personal portfolio showcasing my work and skills in web development',
-  image = '/og-image.jpg'
+const Meta = ({
+  title = 'Portfolio',
+  description = 'Full-stack developer portfolio showcasing modern web applications and technical expertise',
+  image = '/og-image.jpg',
+  type = 'website'
 }: MetaProps) => {
-  const location = useLocation();
   const { isDarkMode } = useStore();
+  const location = useLocation();
+  const fullTitle = `${title} | Developer Portfolio`;
+  const url = `${window.location.origin}${location.pathname}`;
 
   useEffect(() => {
+    // Update document title
+    document.title = fullTitle;
+
     // Update meta tags
-    document.title = title;
-    document.querySelector('meta[name="description"]')?.setAttribute('content', description);
-    document.querySelector('meta[property="og:title"]')?.setAttribute('content', title);
-    document.querySelector('meta[property="og:description"]')?.setAttribute('content', description);
-    document.querySelector('meta[property="og:image"]')?.setAttribute('content', image);
-    document.querySelector('meta[property="og:url"]')?.setAttribute('content', window.location.href);
-    document.querySelector('meta[name="theme-color"]')?.setAttribute('content', isDarkMode ? '#111827' : '#ffffff');
-  }, [title, description, image, location, isDarkMode]);
+    const metaTags = {
+      description,
+      'og:title': fullTitle,
+      'og:description': description,
+      'og:image': `${window.location.origin}${image}`,
+      'og:url': url,
+      'og:type': type,
+      'twitter:card': 'summary_large_image',
+      'twitter:title': fullTitle,
+      'twitter:description': description,
+      'twitter:image': `${window.location.origin}${image}`,
+      'theme-color': isDarkMode ? '#0f172a' : '#f8fafc',
+    };
+
+    Object.entries(metaTags).forEach(([name, content]) => {
+      // Update existing tags
+      const existingTag = document.querySelector(`meta[property="${name}"], meta[name="${name}"]`);
+      if (existingTag) {
+        existingTag.setAttribute('content', content);
+        return;
+      }
+
+      // Create new tags if they don't exist
+      const tag = document.createElement('meta');
+      if (name.startsWith('og:')) {
+        tag.setAttribute('property', name);
+      } else {
+        tag.setAttribute('name', name);
+      }
+      tag.setAttribute('content', content);
+      document.head.appendChild(tag);
+    });
+
+    // Cleanup function
+    return () => {
+      // Only remove tags we might have added, leave essential ones
+      const tagsToRemove = [
+        'og:title',
+        'og:description',
+        'og:image',
+        'og:url',
+        'og:type',
+        'twitter:card',
+        'twitter:title',
+        'twitter:description',
+        'twitter:image',
+      ];
+
+      tagsToRemove.forEach(name => {
+        const tag = document.querySelector(`meta[property="${name}"], meta[name="${name}"]`);
+        if (tag) {
+          tag.remove();
+        }
+      });
+    };
+  }, [fullTitle, description, image, url, type, isDarkMode]);
 
   return null;
 };

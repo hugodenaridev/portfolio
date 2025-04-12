@@ -1,5 +1,7 @@
 import { motion } from 'framer-motion';
 import useStore from '../store/useStore';
+import Card from '../components/Card';
+import Background from '../components/Background';
 import Meta from '../components/Meta';
 import { useState } from 'react';
 import { 
@@ -8,8 +10,7 @@ import {
 } from 'react-icons/fa';
 import { 
   SiTypescript, SiTailwindcss, SiNextdotjs,
-  SiExpress, SiPostgresql, SiMongodb, 
-  SiVscodium as SiVisualstudio
+  SiExpress, SiPostgresql, SiMongodb
 } from 'react-icons/si';
 
 const About = () => {
@@ -40,10 +41,10 @@ const About = () => {
       items: [
         { name: 'Git', icon: <FaGitAlt className="inline-block mr-2 text-[#F05032]" /> },
         { name: 'Docker', icon: <FaDocker className="inline-block mr-2 text-[#2496ED]" /> },
-        { name: 'VS Code', icon: <SiVisualstudio className="inline-block mr-2 text-[#007ACC]" /> },
+        // { name: 'VS Code', icon: <SiVisualstudio className="inline-block mr-2 text-[#007ACC]" /> },
         { name: 'Figma', icon: <FaFigma className="inline-block mr-2 text-[#F24E1E]" /> }
       ]
-    },
+    }
   ];
 
   const experiences = [
@@ -58,7 +59,7 @@ const About = () => {
       company: 'Digital Agency',
       period: '2021 - 2023',
       description: 'Built and maintained multiple client projects using modern web technologies.',
-    },
+    }
   ];
 
   const education = [
@@ -71,7 +72,7 @@ const About = () => {
       degree: 'Bachelor of Software Engineering',
       school: 'University Name',
       year: '2019',
-    },
+    }
   ];
 
   const certifications = [
@@ -86,7 +87,7 @@ const About = () => {
       issuer: 'Google Cloud',
       year: '2024',
       badge: '🎯',
-    },
+    }
   ];
 
   const containerVariants = {
@@ -94,7 +95,7 @@ const About = () => {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.2,
+        staggerChildren: 0.1,
       },
     },
   };
@@ -107,17 +108,12 @@ const About = () => {
   const skillVariants = {
     hover: {
       scale: 1.1,
-      transition: { duration: 0.2 },
-    },
-  };
-
-  const cardVariants = {
-    hover: {
-      scale: 1.02,
-      boxShadow: isDarkMode 
-        ? "0 8px 16px rgba(255, 255, 255, 0.1)"
-        : "0 8px 16px rgba(0, 0, 0, 0.1)",
-    },
+      transition: {
+        type: "spring",
+        stiffness: 400,
+        damping: 10
+      }
+    }
   };
 
   return (
@@ -126,189 +122,160 @@ const About = () => {
         title="About | Developer Portfolio"
         description="Learn about my journey, skills, and experience as a full-stack developer"
       />
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-          className="space-y-16"
-        >
-          {/* Bio Section */}
-          <motion.section variants={itemVariants}>
-            <h2 className={`text-3xl font-bold mb-6 ${
-              isDarkMode ? 'text-white' : 'text-gray-900'
-            }`}>
-              About Me
-            </h2>
-            <p className={`text-lg ${
-              isDarkMode ? 'text-gray-300' : 'text-gray-600'
-            }`}>
-              Passionate developer with expertise in modern web technologies. 
-              Focused on creating performant and user-friendly applications.
-            </p>
-          </motion.section>
+      <div className="relative">
+        <Background />
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+            className="space-y-16"
+          >
+            {/* Bio Section */}
+            <motion.section 
+              variants={itemVariants}
+              className="text-center"
+            >
+              <h2 className="text-3xl font-bold mb-6">About Me</h2>
+              <Card variant="glass" className="p-8">
+                <p className={`text-lg ${
+                  isDarkMode ? 'text-gray-300' : 'text-gray-600'
+                }`}>
+                  Passionate developer with expertise in modern web technologies. 
+                  Focused on creating performant and user-friendly applications.
+                </p>
+              </Card>
+            </motion.section>
 
-          {/* Skills Section */}
-          <motion.section variants={itemVariants}>
-            <h2 className={`text-3xl font-bold mb-8 ${
-              isDarkMode ? 'text-white' : 'text-gray-900'
-            }`}>
-              Skills
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {skills.map((skillGroup) => (
-                <div 
-                  key={skillGroup.category}
-                  className={`p-6 rounded-lg ${
-                    isDarkMode ? 'bg-gray-800' : 'bg-gray-50'
-                  }`}
-                >
-                  <h3 className={`text-xl font-semibold mb-4 ${
-                    isDarkMode ? 'text-gray-200' : 'text-gray-800'
-                  }`}>
-                    {skillGroup.category}
-                  </h3>
-                  <div className="space-y-3">
-                    {skillGroup.items.map((skill) => (
-                      <motion.div
-                        key={skill.name}
-                        variants={skillVariants}
-                        whileHover="hover"
-                        onHoverStart={() => setHoveredSkill(skill.name)}
-                        onHoverEnd={() => setHoveredSkill(null)}
-                        className={`flex items-center ${
-                          isDarkMode ? 'text-gray-300' : 'text-gray-700'
-                        }`}
-                      >
-                        {skill.icon}
-                        <span className={hoveredSkill === skill.name ? 'font-semibold' : ''}>
-                          {skill.name}
-                        </span>
-                      </motion.div>
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </motion.section>
+            {/* Skills Section */}
+            <motion.section variants={itemVariants}>
+              <h2 className="text-3xl font-bold mb-8">Skills</h2>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                {skills.map((skillGroup) => (
+                  <Card
+                    key={skillGroup.category}
+                    variant="glass"
+                    className="p-6"
+                  >
+                    <h3 className="text-xl font-semibold mb-4">
+                      {skillGroup.category}
+                    </h3>
+                    <div className="space-y-3">
+                      {skillGroup.items.map((skill) => (
+                        <motion.div
+                          key={skill.name}
+                          variants={skillVariants}
+                          whileHover="hover"
+                          onHoverStart={() => setHoveredSkill(skill.name)}
+                          onHoverEnd={() => setHoveredSkill(null)}
+                          className={`flex items-center ${
+                            isDarkMode ? 'text-gray-300' : 'text-gray-700'
+                          }`}
+                        >
+                          {skill.icon}
+                          <span className={hoveredSkill === skill.name ? 'font-semibold' : ''}>
+                            {skill.name}
+                          </span>
+                        </motion.div>
+                      ))}
+                    </div>
+                  </Card>
+                ))}
+              </div>
+            </motion.section>
 
-          {/* Experience Section */}
-          <motion.section variants={itemVariants}>
-            <h2 className={`text-3xl font-bold mb-8 ${
-              isDarkMode ? 'text-white' : 'text-gray-900'
-            }`}>
-              Experience
-            </h2>
-            <div className="space-y-6">
-              {experiences.map((exp, index) => (
-                <motion.div
-                  key={index}
-                  variants={cardVariants}
-                  whileHover="hover"
-                  className={`p-6 rounded-lg ${
-                    isDarkMode ? 'bg-gray-800' : 'bg-gray-50'
-                  }`}
-                >
-                  <h3 className={`text-xl font-bold ${
-                    isDarkMode ? 'text-gray-200' : 'text-gray-800'
-                  }`}>
-                    {exp.title}
-                  </h3>
-                  <p className={`text-lg font-medium ${
-                    isDarkMode ? 'text-gray-300' : 'text-gray-700'
-                  }`}>
-                    {exp.company}
-                  </p>
-                  <p className={`text-sm ${
-                    isDarkMode ? 'text-gray-400' : 'text-gray-500'
-                  }`}>
-                    {exp.period}
-                  </p>
-                  <p className={`mt-2 ${
-                    isDarkMode ? 'text-gray-300' : 'text-gray-600'
-                  }`}>
-                    {exp.description}
-                  </p>
-                </motion.div>
-              ))}
-            </div>
-          </motion.section>
+            {/* Experience Section */}
+            <motion.section variants={itemVariants}>
+              <h2 className="text-3xl font-bold mb-8">Experience</h2>
+              <div className="space-y-6">
+                {experiences.map((exp, index) => (
+                  <Card
+                    key={index}
+                    variant="glass"
+                    className="p-6"
+                    whileHover={{ y: -4 }}
+                  >
+                    <h3 className="text-xl font-bold mb-1">
+                      {exp.title}
+                    </h3>
+                    <p className="text-lg font-medium text-primary-500 dark:text-primary-400 mb-1">
+                      {exp.company}
+                    </p>
+                    <p className={`text-sm mb-3 ${
+                      isDarkMode ? 'text-gray-400' : 'text-gray-500'
+                    }`}>
+                      {exp.period}
+                    </p>
+                    <p className={
+                      isDarkMode ? 'text-gray-300' : 'text-gray-600'
+                    }>
+                      {exp.description}
+                    </p>
+                  </Card>
+                ))}
+              </div>
+            </motion.section>
 
-          {/* Education Section */}
-          <motion.section variants={itemVariants}>
-            <h2 className={`text-3xl font-bold mb-8 ${
-              isDarkMode ? 'text-white' : 'text-gray-900'
-            }`}>
-              Education
-            </h2>
-            <div className="space-y-6">
-              {education.map((edu, index) => (
-                <motion.div
-                  key={index}
-                  variants={cardVariants}
-                  whileHover="hover"
-                  className={`p-6 rounded-lg ${
-                    isDarkMode ? 'bg-gray-800' : 'bg-gray-50'
-                  }`}
-                >
-                  <h3 className={`text-xl font-bold ${
-                    isDarkMode ? 'text-gray-200' : 'text-gray-800'
-                  }`}>
-                    {edu.degree}
-                  </h3>
-                  <p className={`text-lg ${
-                    isDarkMode ? 'text-gray-300' : 'text-gray-700'
-                  }`}>
-                    {edu.school}
-                  </p>
-                  <p className={`text-sm ${
-                    isDarkMode ? 'text-gray-400' : 'text-gray-500'
-                  }`}>
-                    {edu.year}
-                  </p>
-                </motion.div>
-              ))}
-            </div>
-          </motion.section>
+            {/* Education Section */}
+            <motion.section variants={itemVariants}>
+              <h2 className="text-3xl font-bold mb-8">Education</h2>
+              <div className="space-y-6">
+                {education.map((edu, index) => (
+                  <Card
+                    key={index}
+                    variant="glass"
+                    className="p-6"
+                    whileHover={{ y: -4 }}
+                  >
+                    <h3 className="text-xl font-bold mb-1">
+                      {edu.degree}
+                    </h3>
+                    <p className="text-lg text-primary-500 dark:text-primary-400">
+                      {edu.school}
+                    </p>
+                    <p className={`text-sm ${
+                      isDarkMode ? 'text-gray-400' : 'text-gray-500'
+                    }`}>
+                      {edu.year}
+                    </p>
+                  </Card>
+                ))}
+              </div>
+            </motion.section>
 
-          {/* Certifications Section */}
-          <motion.section variants={itemVariants}>
-            <h2 className={`text-3xl font-bold mb-8 ${
-              isDarkMode ? 'text-white' : 'text-gray-900'
-            }`}>
-              Certifications
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {certifications.map((cert, index) => (
-                <motion.div
-                  key={index}
-                  variants={cardVariants}
-                  whileHover="hover"
-                  className={`p-6 rounded-lg ${
-                    isDarkMode ? 'bg-gray-800' : 'bg-gray-50'
-                  }`}
-                >
-                  <span className="text-2xl mr-2">{cert.badge}</span>
-                  <h3 className={`text-xl font-bold inline-block ${
-                    isDarkMode ? 'text-gray-200' : 'text-gray-800'
-                  }`}>
-                    {cert.name}
-                  </h3>
-                  <p className={`text-lg ${
-                    isDarkMode ? 'text-gray-300' : 'text-gray-700'
-                  }`}>
-                    {cert.issuer}
-                  </p>
-                  <p className={`text-sm ${
-                    isDarkMode ? 'text-gray-400' : 'text-gray-500'
-                  }`}>
-                    {cert.year}
-                  </p>
-                </motion.div>
-              ))}
-            </div>
-          </motion.section>
-        </motion.div>
+            {/* Certifications Section */}
+            <motion.section variants={itemVariants}>
+              <h2 className="text-3xl font-bold mb-8">Certifications</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {certifications.map((cert, index) => (
+                  <Card
+                    key={index}
+                    variant="glass"
+                    className="p-6"
+                    whileHover={{ y: -4 }}
+                  >
+                    <div className="flex items-center gap-3">
+                      <span className="text-2xl">{cert.badge}</span>
+                      <div>
+                        <h3 className="text-xl font-bold">
+                          {cert.name}
+                        </h3>
+                        <p className="text-primary-500 dark:text-primary-400">
+                          {cert.issuer}
+                        </p>
+                        <p className={`text-sm ${
+                          isDarkMode ? 'text-gray-400' : 'text-gray-500'
+                        }`}>
+                          {cert.year}
+                        </p>
+                      </div>
+                    </div>
+                  </Card>
+                ))}
+              </div>
+            </motion.section>
+          </motion.div>
+        </div>
       </div>
     </>
   );
