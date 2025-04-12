@@ -30,20 +30,26 @@ const Contact = () => {
     {
       icon: '📧',
       label: 'Email',
-      href: 'mailto:your.email@example.com',
-      value: 'your.email@example.com'
+      href: 'mailto:hugo@gmail.com',
+      value: 'hugodenari.dev@gmail.com'
     },
     {
       icon: '🔗',
       label: 'LinkedIn',
-      href: 'https://linkedin.com/in/yourprofile',
-      value: 'LinkedIn Profile'
+      href: 'https://linkedin.com/in/hugo-stanisce-denari/',
+      value: 'linkedin.com/in/hugo-stanisce-denari/'
     },
     {
       icon: '💻',
       label: 'GitHub',
-      href: 'https://github.com/yourusername',
-      value: 'GitHub Profile'
+      href: 'https://github.com/hugodenaridev',
+      value: 'github.com/hugodenaridev'
+    },
+    {
+      icon: '🏢',
+      label: 'Company',
+      href: 'https://www.btgpactual.com',
+      value: 'BTG Pactual'
     }
   ];
 
@@ -74,7 +80,7 @@ const Contact = () => {
                 Get in Touch
               </h1>
               <p className="text-lg text-surface-600 dark:text-surface-300">
-                Have a project in mind? Let's talk about it.
+                Looking for a software engineer with experience in financial applications? Let's connect.
               </p>
             </motion.div>
 
@@ -214,11 +220,11 @@ const Contact = () => {
                         whileHover={{ x: 4 }}
                       >
                         <span className="mr-3 text-2xl">{link.icon}</span>
-                        <div className="flex flex-col">
+                        <div className="flex flex-col overflow-hidden">
                           <span className="text-sm text-surface-500 dark:text-surface-400">
                             {link.label}
                           </span>
-                          <span className="text-primary-600 dark:text-primary-400 group-hover:text-primary-500">
+                          <span className="text-primary-600 dark:text-primary-400 group-hover:text-primary-500 truncate max-w-[180px] sm:max-w-[240px]">
                             {link.value}
                           </span>
                         </div>

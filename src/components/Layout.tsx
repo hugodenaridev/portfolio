@@ -16,7 +16,7 @@ interface LayoutProps {
 }
 
 const Layout = ({ children }: LayoutProps) => {
-  const { isDarkMode, isMenuOpen, toggleMenu } = useStore();
+  const { isDarkMode, isMenuOpen, toggleMenu, toggleTheme } = useStore();
   const isFirstVisit = useFirstVisit();
   const activeSection = useActiveSection();
   const location = useLocation();
@@ -30,6 +30,19 @@ const Layout = ({ children }: LayoutProps) => {
       document.documentElement.classList.remove('dark');
     }
   }, [isDarkMode]);
+
+  // Add event listener for the theme toggle keyboard shortcut
+  useEffect(() => {
+    const handleThemeToggle = () => {
+      toggleTheme();
+    };
+
+    document.addEventListener('toggle-theme', handleThemeToggle);
+    
+    return () => {
+      document.removeEventListener('toggle-theme', handleThemeToggle);
+    };
+  }, [toggleTheme]);
 
   const navItems = [
     { 

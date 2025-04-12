@@ -6,11 +6,12 @@ import Meta from '../components/Meta';
 import { useState } from 'react';
 import { 
   FaReact, FaNodeJs, FaGitAlt, FaDocker,
-  FaFigma 
+  FaFigma, FaJava, FaMicrosoft, FaBuilding, FaCode
 } from 'react-icons/fa';
 import { 
   SiTypescript, SiTailwindcss, SiNextdotjs,
-  SiExpress, SiPostgresql, SiMongodb
+  SiExpress, SiPostgresql, SiMongodb, 
+  SiDotnet, SiSpring
 } from 'react-icons/si';
 
 const About = () => {
@@ -22,18 +23,18 @@ const About = () => {
       category: 'Frontend', 
       items: [
         { name: 'React', icon: <FaReact className="inline-block mr-2 text-[#61DAFB]" /> },
+        { name: 'JavaScript', icon: <SiTypescript className="inline-block mr-2 text-[#F7DF1E]" /> },
         { name: 'TypeScript', icon: <SiTypescript className="inline-block mr-2 text-[#3178C6]" /> },
-        { name: 'TailwindCSS', icon: <SiTailwindcss className="inline-block mr-2 text-[#06B6D4]" /> },
-        { name: 'Next.js', icon: <SiNextdotjs className="inline-block mr-2" /> }
+        { name: 'TailwindCSS', icon: <SiTailwindcss className="inline-block mr-2 text-[#06B6D4]" /> }
       ]
     },
     { 
       category: 'Backend', 
       items: [
-        { name: 'Node.js', icon: <FaNodeJs className="inline-block mr-2 text-[#339933]" /> },
-        { name: 'Express', icon: <SiExpress className="inline-block mr-2" /> },
-        { name: 'PostgreSQL', icon: <SiPostgresql className="inline-block mr-2 text-[#336791]" /> },
-        { name: 'MongoDB', icon: <SiMongodb className="inline-block mr-2 text-[#47A248]" /> }
+        { name: 'C#', icon: <FaMicrosoft className="inline-block mr-2 text-[#239120]" /> },
+        { name: '.NET', icon: <SiDotnet className="inline-block mr-2 text-[#512BD4]" /> },
+        { name: 'Java', icon: <FaJava className="inline-block mr-2 text-[#007396]" /> },
+        { name: 'Spring Boot', icon: <SiSpring className="inline-block mr-2 text-[#6DB33F]" /> }
       ]
     },
     { 
@@ -41,7 +42,7 @@ const About = () => {
       items: [
         { name: 'Git', icon: <FaGitAlt className="inline-block mr-2 text-[#F05032]" /> },
         { name: 'Docker', icon: <FaDocker className="inline-block mr-2 text-[#2496ED]" /> },
-        // { name: 'VS Code', icon: <SiVisualstudio className="inline-block mr-2 text-[#007ACC]" /> },
+        { name: 'Playwright', icon: <FaMicrosoft className="inline-block mr-2 text-[#007ACC]" /> },
         { name: 'Figma', icon: <FaFigma className="inline-block mr-2 text-[#F24E1E]" /> }
       ]
     }
@@ -49,29 +50,32 @@ const About = () => {
 
   const experiences = [
     {
-      title: 'Senior Frontend Developer',
-      company: 'Tech Company',
-      period: '2023 - Present',
-      description: 'Led development of enterprise web applications using React and TypeScript.',
+      title: 'Software Engineer',
+      company: 'BTG Pactual (Largest investment bank in Latam)',
+      period: 'July 2021 - Present',
+      achievements: [
+        'Developed frontend applications that generated over $20M in quarterly revenue',
+        'Wrote E2E tests using Playwright, increasing code coverage to 80%',
+        'Implemented Monorepo and monolith architecture, improving webpage performance by 20%',
+        'Guided newcomers through the codebase and collaborated with the team to build backend APIs and frontend screens'
+      ]
     },
     {
-      title: 'Full Stack Developer',
-      company: 'Digital Agency',
-      period: '2021 - 2023',
-      description: 'Built and maintained multiple client projects using modern web technologies.',
+      title: 'Software Engineer Intern',
+      company: 'Onebrain',
+      period: 'January 2021 - June 2021',
+      achievements: [
+        'Designed an automated SMS app, saving 8 hours of manual work weekly',
+        'Worked closely with senior engineers to develop a chat feature using Java and React'
+      ]
     }
   ];
 
   const education = [
     {
-      degree: 'Master of Computer Science',
-      school: 'University Name',
-      year: '2021',
-    },
-    {
-      degree: 'Bachelor of Software Engineering',
-      school: 'University Name',
-      year: '2019',
+      degree: 'B.S. Computer Science',
+      school: 'Universidade Estadual de Campinas',
+      year: '2014 - 2020',
     }
   ];
 
@@ -124,7 +128,7 @@ const About = () => {
       />
       <div className="relative">
         <Background />
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
           <motion.div
             variants={containerVariants}
             initial="hidden"
@@ -141,8 +145,36 @@ const About = () => {
                 <p className={`text-lg ${
                   isDarkMode ? 'text-gray-300' : 'text-gray-600'
                 }`}>
-                  Passionate developer with expertise in modern web technologies. 
-                  Focused on creating performant and user-friendly applications.
+                  {(() => {
+                    const bioText = "4.5 years of experience working with JavaScript, React, C# and .NET. I have built full stack web applications for BTG Pactual (World's best SME Bank), such as internet banking features, webviews and backoffice platforms. Additionally, I have built a project for my internship using Java, SpringBoot, JavaScript and React.js that assisted in the daily chores of the company staff.";
+                    
+                    // Terms to highlight
+                    const highlightTerms = [
+                      "4.5 years", "JavaScript", "React", "C#", ".NET", 
+                      "BTG Pactual", "Java", "SpringBoot", "React.js"
+                    ];
+                    
+                    // Create a regex to match all highlight terms
+                    const regex = new RegExp(
+                      '(' + 
+                      highlightTerms
+                        .map(term => term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
+                        .join('|') + 
+                      ')', 
+                      'g'
+                    );
+                    
+                    return bioText.split(regex).map((part, i) => {
+                      if (highlightTerms.includes(part)) {
+                        return (
+                          <span key={i} className="font-bold text-primary-500 dark:text-primary-400">
+                            {part}
+                          </span>
+                        );
+                      }
+                      return part;
+                    });
+                  })()}
                 </p>
               </Card>
             </motion.section>
@@ -192,25 +224,57 @@ const About = () => {
                   <Card
                     key={index}
                     variant="glass"
-                    className="p-6"
+                    className="p-6 overflow-x-auto"
                     whileHover={{ y: -4 }}
                   >
-                    <h3 className="text-xl font-bold mb-1">
-                      {exp.title}
-                    </h3>
-                    <p className="text-lg font-medium text-primary-500 dark:text-primary-400 mb-1">
-                      {exp.company}
-                    </p>
-                    <p className={`text-sm mb-3 ${
-                      isDarkMode ? 'text-gray-400' : 'text-gray-500'
-                    }`}>
-                      {exp.period}
-                    </p>
-                    <p className={
-                      isDarkMode ? 'text-gray-300' : 'text-gray-600'
-                    }>
-                      {exp.description}
-                    </p>
+                    <div className="flex flex-col items-center text-center mb-4">
+                      <div className={`text-3xl mb-3 ${
+                        isDarkMode ? 'text-primary-400' : 'text-primary-600'
+                      }`}>
+                        {exp.company.includes('BTG') ? <FaBuilding /> : <FaCode />}
+                      </div>
+                      <h3 className="text-xl font-bold mb-1">
+                        {exp.title}
+                      </h3>
+                      <p className="text-lg font-medium text-primary-500 dark:text-primary-400 mb-1">
+                        {exp.company}
+                      </p>
+                      <p className={`text-sm ${
+                        isDarkMode ? 'text-gray-400' : 'text-gray-500'
+                      }`}>
+                        {exp.period}
+                      </p>
+                    </div>
+                    <div className="space-y-3 mt-4 border-t border-gray-200 dark:border-gray-700 pt-4">
+                      {exp.achievements.map((achievement, achievementIndex) => (
+                        <motion.div 
+                          key={achievementIndex} 
+                          className="flex items-center min-w-max pr-4"
+                          whileHover={{ x: 3 }}
+                          transition={{ type: "spring", stiffness: 300 }}
+                        >
+                          <span className={`mr-2 flex-shrink-0 text-xl ${
+                            isDarkMode ? 'text-primary-400' : 'text-primary-600'
+                          }`}>•</span>
+                          <p className={`${
+                            isDarkMode ? 'text-gray-300' : 'text-gray-600'
+                          } font-medium leading-relaxed whitespace-nowrap overflow-visible`}>
+                            {achievement.includes('$20M') || achievement.includes('80%') || achievement.includes('20%') || achievement.includes('8 hours') ? (
+                              <>
+                                {achievement.split(/(\$20M|80%|20%|8 hours)/g).map((part, i) => {
+                                  if (part === '$20M' || part === '80%' || part === '20%' || part === '8 hours') {
+                                    return <span key={i} className="font-bold text-primary-500 dark:text-primary-400">{part}</span>
+                                  }
+                                  return part;
+                                })}
+                              </>
+                            ) : (
+                              achievement
+                            )}
+                          </p>
+                        </motion.div>
+                      ))}
+                    </div>
                   </Card>
                 ))}
               </div>

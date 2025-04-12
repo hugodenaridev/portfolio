@@ -1,4 +1,5 @@
-import { motion } from 'framer-motion';
+import { motion, useInView } from 'framer-motion';
+import { useRef } from 'react';
 import useStore from '../store/useStore';
 import Button from '../components/Button';
 import Card from '../components/Card';
@@ -7,17 +8,19 @@ import Meta from '../components/Meta';
 
 const Home = () => {
   const { isDarkMode } = useStore();
+  const statsRef = useRef(null);
+  const isInView = useInView(statsRef, { once: true, amount: 0.3 });
 
   const technologies = [
-    'React', 'TypeScript', 'Node.js', 'Next.js',
-    'TailwindCSS', 'MongoDB', 'PostgreSQL', 'AWS'
+    'React', 'JavaScript', 'TypeScript', 'C#',
+    '.NET', 'Java', 'Spring Boot', 'Playwright'
   ];
 
   const stats = [
-    { label: 'Years Experience', value: '5+' },
-    { label: 'Projects Completed', value: '50+' },
-    { label: 'Happy Clients', value: '30+' },
-    { label: 'Client Satisfaction', value: '100%' }
+    { label: 'Years Experience', value: '4.5+' },
+    { label: 'Banking Features Built', value: '20+' },
+    { label: 'Revenue Generated', value: '$20M+' },
+    { label: 'Code Coverage', value: '80%' }
   ];
 
   return (
@@ -46,7 +49,7 @@ const Home = () => {
               <motion.h1 
                 className="text-4xl md:text-6xl font-bold mb-6"
               >
-                Building Digital Experiences
+                Transforming Finance
                 <motion.span 
                   className="text-gradient block mt-2"
                   animate={{ 
@@ -58,7 +61,7 @@ const Home = () => {
                     ease: "linear" 
                   }}
                 >
-                  With Modern Technologies
+                  Through Technology
                 </motion.span>
               </motion.h1>
             </motion.div>
@@ -71,8 +74,8 @@ const Home = () => {
               animate={{ opacity: 1 }}
               transition={{ duration: 0.5, delay: 0.4 }}
             >
-              Full-stack developer crafting beautiful and functional web applications
-              that solve real-world problems
+              Crafting high-performance banking solutions with 4.5 years of expertise in financial technology.
+              From revenue-generating apps to optimized user experiences, I build software that empowers institutions and delights users.
             </motion.p>
 
             <motion.div
@@ -82,10 +85,10 @@ const Home = () => {
               transition={{ duration: 0.5, delay: 0.6 }}
             >
               <Button to="/projects" variant="primary" size="lg">
-                View My Work
+                Explore My Solutions
               </Button>
               <Button to="/contact" variant="outline" size="lg">
-                Get in Touch
+                Let's Collaborate
               </Button>
             </motion.div>
 
@@ -99,7 +102,7 @@ const Home = () => {
               <p className={`text-sm font-medium mb-4 ${
                 isDarkMode ? 'text-gray-400' : 'text-gray-500'
               }`}>
-                Technologies I work with
+                My Toolkit for Financial Innovation
               </p>
               <div className="flex flex-wrap justify-center gap-4">
                 {technologies.map((tech, index) => (
@@ -129,52 +132,50 @@ const Home = () => {
         </div>
 
         {/* Stats Section */}
-        <motion.div 
+        <div 
           className="py-20 relative"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          transition={{ duration: 0.5 }}
-          viewport={{ once: true }}
+          ref={statsRef}
         >
           <Background variant="subtle" />
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
+            <motion.div 
+              className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12"
+              initial={{ opacity: 0 }}
+              animate={isInView ? { opacity: 1 } : { opacity: 0 }}
+              transition={{ duration: 0.6 }}
+            >
               {stats.map((stat, index) => (
-                <Card
+                <motion.div
                   key={stat.label}
-                  variant="glass"
-                  className="p-6 text-center"
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  viewport={{ once: true }}
+                  initial={{ y: 30, opacity: 0 }}
+                  animate={isInView ? { y: 0, opacity: 1 } : { y: 30, opacity: 0 }}
+                  transition={{ 
+                    duration: 0.4,
+                    delay: 0.2 + (index * 0.1),
+                  }}
                 >
-                  <motion.h3 
-                    className={`text-4xl font-bold mb-2 ${
-                      isDarkMode ? 'text-white' : 'text-gray-900'
-                    }`}
-                    initial={{ scale: 0.5 }}
-                    whileInView={{ scale: 1 }}
-                    transition={{ 
-                      type: "spring",
-                      stiffness: 200,
-                      damping: 10,
-                      delay: 0.2 + (index * 0.1)
-                    }}
-                    viewport={{ once: true }}
+                  <Card
+                    variant="glass"
+                    className="p-6 text-center"
                   >
-                    {stat.value}
-                  </motion.h3>
-                  <p className={
-                    isDarkMode ? 'text-gray-400' : 'text-gray-600'
-                  }>
-                    {stat.label}
-                  </p>
-                </Card>
+                    <div
+                      className={`text-4xl font-bold mb-2 ${
+                        isDarkMode ? 'text-white' : 'text-gray-900'
+                      }`}
+                    >
+                      {stat.value}
+                    </div>
+                    <p className={
+                      isDarkMode ? 'text-gray-400' : 'text-gray-600'
+                    }>
+                      {stat.label}
+                    </p>
+                  </Card>
+                </motion.div>
               ))}
-            </div>
+            </motion.div>
           </div>
-        </motion.div>
+        </div>
       </div>
     </>
   );
