@@ -52,7 +52,7 @@ const useIntersectionObserver = ({
         currentObserver.unobserve(currentElement);
       }
     };
-  }, [elementRef.current]);
+  }, []);
 
   return { elementRef, isVisible };
 };

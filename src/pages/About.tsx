@@ -5,12 +5,11 @@ import Background from '../components/Background';
 import Meta from '../components/Meta';
 import { useState } from 'react';
 import { 
-  FaReact, FaNodeJs, FaGitAlt, FaDocker,
+  FaReact, FaGitAlt, FaDocker,
   FaFigma, FaJava, FaMicrosoft, FaBuilding, FaCode
 } from 'react-icons/fa';
 import { 
-  SiTypescript, SiTailwindcss, SiNextdotjs,
-  SiExpress, SiPostgresql, SiMongodb, 
+  SiTypescript, SiTailwindcss,
   SiDotnet, SiSpring
 } from 'react-icons/si';
 

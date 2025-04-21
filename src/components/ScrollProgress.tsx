@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react';
 import { motion, useScroll, useSpring } from 'framer-motion';
-import useStore from '../store/useStore';
 
 const ScrollProgress = () => {
-  const { isDarkMode } = useStore();
+  
   const [isVisible, setIsVisible] = useState(false);
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, {
